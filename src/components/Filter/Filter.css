@@ -1,0 +1,10 @@
+input {
+  background-color: transparent;
+  border: medium dotted lightgrey;
+  border-radius: 15px;
+  outline: none;
+}
+label {
+  color: lightcoral;
+  font-weight: 900;
+}

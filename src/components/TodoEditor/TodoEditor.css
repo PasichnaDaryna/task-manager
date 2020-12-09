@@ -1,0 +1,28 @@
+form input,
+form label,
+form textarea {
+  display: block;
+  width: 100%;
+}
+
+textarea {
+  max-width: 400px;
+  margin-bottom: 10px;
+  padding: 0;
+  outline: 0;
+  line-height: 40px;
+  background: transparent;
+  background-size: 8px 40px;
+  letter-spacing: 0.2em;
+  resize: none;
+  border: medium dotted lightgrey;
+  border-radius: 15px;
+}
+
+.submit-button {
+  display: inline-block;
+  padding: 5px 10px;
+  background: lightcoral;
+  border-radius: 15px;
+  color: white;
+}
