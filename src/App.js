@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import TodoEditor from './components/TodoEditor';
-import TodoList from './components/TodoList/TodosList';
+
 import shortid from 'shortid';
-import initialTodos from './initialTodos.json';
+// import initialTodos from './initialTodos.json';
 import Filter from './components/Filter/Filter';
 import Container from './components/Container/Container';
+import IconButton from './components/IconButton/IconButton';
+import TodoList from './components/TodoList/TodosList';
+import { ReactComponent as AddIcon } from './icons/add.svg';
+import Modal from './components/Modal/Modal';
 
 class App extends Component {
   state = {
-    todos: initialTodos,
+    todos: [],
     filter: '',
+    showModal: false,
   };
+
   // add task
   addTodo = text => {
     const todo = {
@@ -26,6 +32,14 @@ class App extends Component {
   deleteTodo = todoId => {
     this.setState(prevState => ({
       todos: prevState.todos.filter(todo => todo.id !== todoId),
+    }));
+  };
+
+  toggleCompleted = todoId => {
+    this.setState(({ todos }) => ({
+      todos: todos.map(todo =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo,
+      ),
     }));
   };
 
@@ -49,24 +63,43 @@ class App extends Component {
     );
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const { todos, filter } = this.state;
+    const { todos, filter, showModal } = this.state;
     const totalTodoCount = todos.length;
     const completedTodos = this.getCompletedTodos();
-    const percentCompleted = completedTodos / totalTodoCount;
+    // const percentCompleted = completedTodos / totalTodoCount;
     const visibleTodos = this.getVisibleTodos();
 
     return (
       <Container className="container">
-        <TodoEditor onSubmit={this.addTodo} />
+        <IconButton onClick={this.toggleModal} aria-label="Добавить todo">
+          <AddIcon width="40" height="40" fill="#fff" />
+        </IconButton>
+
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <TodoEditor onSubmit={this.addTodo} />
+          </Modal>
+        )}
+        {/* <TodoEditor onSubmit={this.addTodo} /> */}
         <ul className="stat-list">
           <li>Общее количество задач - {totalTodoCount}</li>
           <li>Количество выполненных задач {completedTodos}</li>
-          <span> {percentCompleted}%</span>
+          {/* <span> {percentCompleted}%</span> */}
         </ul>
         <Filter value={filter} onChange={this.changeFilter} />
 
-        <TodoList todos={visibleTodos} onDeleteTodo={this.deleteTodo} />
+        <TodoList
+          todos={visibleTodos}
+          onDeleteTodo={this.deleteTodo}
+          onToggleCompleted={this.toggleCompleted}
+        />
       </Container>
     );
   }

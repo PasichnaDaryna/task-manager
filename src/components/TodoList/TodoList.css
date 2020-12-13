@@ -50,6 +50,19 @@ section {
   width: 25%;
 }
 
+.todo-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  background-color: green;
+
+  transform: scaleX(0);
+}
+
 .close::before {
   content: 'удалить';
   background-color: white;
@@ -61,4 +74,10 @@ section {
 
 .todo-text {
   color: white;
+}
+
+.checkbox {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
